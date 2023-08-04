@@ -22,5 +22,11 @@ namespace Todo.Data.Entities {
             Title = title;
             Importance = importance;
         }
+
+        public TodoItem(int todoListId, IdentityUser responsibleParty, string title, Importance importance)
+        : this (todoListId, responsibleParty?.Id, title, importance)
+        {
+            ResponsibleParty = responsibleParty;
+        }
     }
 }
