@@ -7,10 +7,19 @@
     ViewData["Title"] = $"List: {Model.Title}";
 }
 
+@section Scripts {
+    <script type="text/javascript" src="~/js/todolists/detail.js"></script>
+}
+
 <h2>@ViewData["Title"]</h2>
 
 <div class="col-md-6">
 
+    <div>
+        <button class="btn-default button-group-hide-done-button" onclick="hideDoneItems()">Hide incomplete tasks</button>
+        <button class="btn-default button-group-show-done-button" onclick="showDoneItems()" style="display:none">Show incomplete tasks</button>
+    </div>
+    
     <ul class="list-group">
 
         <li class="list-group-item">
@@ -35,8 +44,10 @@
                     break;
             }
 
-            <li class="list-group-item @contextualClass">
-                
+            var doneClass = item.IsDone ? "list-group-item-done" : "";
+
+            <li class="list-group-item @contextualClass @doneClass">
+
                 <div class="row">
 
                 <div class="col-md-8">
