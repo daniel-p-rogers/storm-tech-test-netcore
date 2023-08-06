@@ -57,5 +57,29 @@ namespace Todo.Tests
             // Assert
             Assert.Empty(relevantTodoLists);
         }
+        
+        [Fact]
+        public async Task RelevantTodoListsReturnsListsWhereUserIsAssigned()
+        {
+            // Arrange
+            var ownerUser = new IdentityUser("alice@example.com");
+            var assignedUser = new IdentityUser("bob@example.com");
+
+            var todoList = new TestTodoListBuilder(ownerUser, "shopping")
+                .WithItem("bread", Importance.Medium, assignedUser)
+                .Build();
+
+            var dbOptions = ApplicationDbInMemoryBuilder.GetInMemoryDbContextOptions(); 
+
+            using var context = new ApplicationDbContext(dbOptions);
+            context.TodoLists.Add(todoList);
+            await context.SaveChangesAsync();
+
+            // Act
+            var relevantTodoLists = context.RelevantTodoLists(assignedUser.Id);
+
+            // Assert
+            Assert.Single(relevantTodoLists);
+        }
     }
 }
