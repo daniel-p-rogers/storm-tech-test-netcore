@@ -13,9 +13,14 @@ namespace Todo.Models.TodoItems
         public string ResponsiblePartyId { get; set; }
         public Importance Importance { get; set; } = Importance.Medium;
 
+        public int Rank { get; set; }
+
         public TodoItemCreateFields() { }
 
-        public TodoItemCreateFields(int todoListId, string todoListTitle, string responsiblePartyId)
+        public TodoItemCreateFields(
+            int todoListId,
+            string todoListTitle,
+            string responsiblePartyId)
         {
             TodoListId = todoListId;
             TodoListTitle = todoListTitle;

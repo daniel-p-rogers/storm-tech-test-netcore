@@ -17,16 +17,17 @@ namespace Todo.Data.Entities {
 
         protected TodoItem() { }
 
-        public TodoItem(int todoListId, string responsiblePartyId, string title, Importance importance)
+        public TodoItem(int todoListId, string responsiblePartyId, string title, Importance importance, int rank)
         {
             TodoListId = todoListId;
             ResponsiblePartyId = responsiblePartyId;
             Title = title;
             Importance = importance;
+            Rank = rank;
         }
 
-        public TodoItem(int todoListId, IdentityUser responsibleParty, string title, Importance importance)
-        : this (todoListId, responsibleParty?.Id, title, importance)
+        public TodoItem(int todoListId, IdentityUser responsibleParty, string title, Importance importance, int rank)
+        : this (todoListId, responsibleParty?.Id, title, importance, rank)
         {
             ResponsibleParty = responsibleParty;
         }

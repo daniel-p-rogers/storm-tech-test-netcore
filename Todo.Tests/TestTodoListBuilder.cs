@@ -29,7 +29,7 @@ namespace Todo.Tests
         public TodoList Build()
         {
             var todoList = new TodoList(owner, title);
-            var todoItems = items.Select(itm => new TodoItem(todoList.TodoListId, itm.Item3 ?? owner, itm.Item1, itm.Item2));
+            var todoItems = items.Select(itm => new TodoItem(todoList.TodoListId, itm.Item3 ?? owner, itm.Item1, itm.Item2, 0));
             todoItems.ToList().ForEach(tlItm =>
             {
                 todoList.Items.Add(tlItm);
