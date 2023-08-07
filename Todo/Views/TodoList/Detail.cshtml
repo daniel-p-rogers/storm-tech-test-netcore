@@ -27,6 +27,23 @@
                 <strong>Add New Item</strong>
             </a>
         </li>
+        
+        <li class="list-group-item">
+            @if (Model.OrderByRank)
+            {
+                <div>This list is ordered by rank.</div>
+                <a asp-action="Detail" asp-controller="TodoList" asp-route-todoListId="@Model.TodoListId" asp-route-orderByRank="false">
+                    <strong>Order by importance instead</strong>
+                </a>
+            }
+            else
+            {
+                <div>This list is ordered by importance.</div>
+                <a asp-action="Detail" asp-controller="TodoList" asp-route-todoListId="@Model.TodoListId" asp-route-orderByRank="true">
+                    <strong>Order by rank instead</strong>
+                </a>
+            }
+        </li>
 
         @foreach (var item in Model.Items)
         {

@@ -8,11 +8,13 @@ namespace Todo.Models.TodoLists
         public int TodoListId { get; }
         public string Title { get; }
         public ICollection<TodoItemSummaryViewmodel> Items { get; }
+        public bool OrderByRank { get; set; }
 
-        public TodoListDetailViewmodel(int todoListId, string title, ICollection<TodoItemSummaryViewmodel> items)
+        public TodoListDetailViewmodel(int todoListId, string title, bool orderByRank, ICollection<TodoItemSummaryViewmodel> items)
         {
             Items = items;
             TodoListId = todoListId;
+            OrderByRank = orderByRank;
             Title = title;
         }
     }

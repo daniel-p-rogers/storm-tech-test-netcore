@@ -7,13 +7,19 @@ namespace Todo.EntityModelMappers.TodoLists
 {
     public static class TodoListDetailViewmodelFactory
     {
-        public static TodoListDetailViewmodel Create(TodoList todoList)
+        public static TodoListDetailViewmodel Create(TodoList todoList, bool orderByRank = false)
         {
-            var items = todoList.Items
+            var itemsQueryable = todoList.Items;
+
+            var orderedItemsQueryable = orderByRank
+                ? itemsQueryable.OrderBy(o => o.Rank)
+                : itemsQueryable.OrderBy(t => t.Importance);
+            
+            var items = orderedItemsQueryable
                 .Select(TodoItemSummaryViewmodelFactory.Create)
-                .OrderBy(t => t.Importance)
                 .ToList();
-            return new TodoListDetailViewmodel(todoList.TodoListId, todoList.Title, items);
+            
+            return new TodoListDetailViewmodel(todoList.TodoListId, todoList.Title, orderByRank, items);
         }
     }
 }
