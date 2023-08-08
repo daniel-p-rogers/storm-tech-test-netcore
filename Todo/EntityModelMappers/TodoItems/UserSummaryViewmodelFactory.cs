@@ -3,11 +3,11 @@ using Todo.Models.TodoItems;
 
 namespace Todo.EntityModelMappers.TodoItems
 {
-    public class UserSummaryViewmodelFactory
+    public static class UserSummaryViewmodelFactory
     {
-        public static UserSummaryViewmodel Create(IdentityUser identityUser)
+        public static UserSummaryViewmodel Create(IdentityUser identityUser, string gravatarUsername)
         {
-            return new UserSummaryViewmodel(identityUser.UserName, identityUser.Email);
+            return new UserSummaryViewmodel(identityUser.UserName, identityUser.Email, gravatarUsername);
         }
     }
 }

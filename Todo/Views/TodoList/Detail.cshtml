@@ -83,10 +83,16 @@
 
                 <div class="col-md-4 text-right">
                     <small>
-                        @item.ResponsibleParty.UserName
+                        @if (string.IsNullOrWhiteSpace(item.ResponsibleParty.GravatarUserName))
+                        {
+                            <div>@item.ResponsibleParty.UserName</div>
+                        }
+                        else
+                        {
+                            <div>@item.ResponsibleParty.UserName (@item.ResponsibleParty.GravatarUserName)</div>
+                        }
 
                         <img src="https://www.gravatar.com/avatar/@Gravatar.GetHash(item.ResponsibleParty.Email)?s=30"/>
-
                     </small>
                 </div>
                 </div>

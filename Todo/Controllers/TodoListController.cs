@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -16,14 +17,19 @@ namespace Todo.Controllers
     {
         private readonly ApplicationDbContext dbContext;
         private readonly IUserStore<IdentityUser> userStore;
+        private readonly TodoListDetailViewmodelFactory todoListDetailViewmodelFactory;
 
-        public TodoListController(ApplicationDbContext dbContext, IUserStore<IdentityUser> userStore)
+        public TodoListController(
+            ApplicationDbContext dbContext,
+            IUserStore<IdentityUser> userStore,
+            TodoListDetailViewmodelFactory todoListDetailViewmodelFactory)
         {
             this.dbContext = dbContext;
             this.userStore = userStore;
+            this.todoListDetailViewmodelFactory = todoListDetailViewmodelFactory;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var userId = User.Id();
             var todoLists = dbContext.RelevantTodoLists(userId);
@@ -31,10 +37,10 @@ namespace Todo.Controllers
             return View(viewmodel);
         }
 
-        public IActionResult Detail(int todoListId, bool orderByRank = false)
+        public async Task<IActionResult> Detail(int todoListId, bool orderByRank = false)
         {
             var todoList = dbContext.SingleTodoList(todoListId);
-            var viewmodel = TodoListDetailViewmodelFactory.Create(todoList, orderByRank);
+            var viewmodel = await todoListDetailViewmodelFactory.Create(todoList, orderByRank);
             return View(viewmodel);
         }
 

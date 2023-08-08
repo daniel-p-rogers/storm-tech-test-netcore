@@ -1,16 +1,27 @@
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Update;
+using Moq;
 using Todo.Data.Entities;
 using Todo.EntityModelMappers.TodoLists;
+using Todo.Services;
 using Xunit;
 
 namespace Todo.Tests
 {
     public class TodoListDetailViewmodelFactoryTests
     {
+        private readonly TodoListDetailViewmodelFactory _sut;
+        private readonly Mock<IGravatarService> _gravatarService;
+        public TodoListDetailViewmodelFactoryTests()
+        {
+            _gravatarService = new Mock<IGravatarService>();
+            _sut = new TodoListDetailViewmodelFactory(_gravatarService.Object);
+        }
+        
         [Fact]
-        public void CreateOrdersItemsByImportanceWhenNotOrderingByRank()
+        public async Task CreateOrdersItemsByImportanceWhenNotOrderingByRank()
         {
             // Arrange
             const string highImportanceItemTitle = "bread";
@@ -24,7 +35,7 @@ namespace Todo.Tests
                     .Build();
             
             // Act
-            var result = TodoListDetailViewmodelFactory.Create(todoList, false);
+            var result = await _sut.Create(todoList, false);
 
             // Assert
             Assert.Equal(highImportanceItemTitle, result.Items.Select(o => o.Title).First());
@@ -32,7 +43,7 @@ namespace Todo.Tests
         }
         
         [Fact]
-        public void CreateOrdersItemsByRankWhenRequested()
+        public async Task CreateOrdersItemsByRankWhenRequested()
         {
             // Arrange
             const string highRankItemTitle = "bread";
@@ -46,7 +57,7 @@ namespace Todo.Tests
                 .Build();
             
             // Act
-            var result = TodoListDetailViewmodelFactory.Create(todoList, true);
+            var result = await _sut.Create(todoList, true);
 
             // Assert
             Assert.Equal(highRankItemTitle, result.Items.Select(o => o.Title).First());
