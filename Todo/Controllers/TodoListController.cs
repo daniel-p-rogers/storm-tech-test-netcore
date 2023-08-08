@@ -29,7 +29,7 @@ namespace Todo.Controllers
             this.todoListDetailViewmodelFactory = todoListDetailViewmodelFactory;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var userId = User.Id();
             var todoLists = dbContext.RelevantTodoLists(userId);
